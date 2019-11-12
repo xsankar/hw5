@@ -32,16 +32,16 @@ class ModelEmbeddings(nn.Module):
 
         ### YOUR CODE HERE for part 1f
         self.embed_size = embed_size # needed for saving. But not mentioned anywhere else !
-        e_char = 50
-        drop_out = 0.3
+        self.e_char = 50
+        self.drop_out = 0.3
         pad_token_idx = vocab.char2id['<pad>']
         self.embeddings = nn.Embedding(num_embeddings = len(vocab.char2id),
-                                       embedding_dim = e_char, padding_idx = pad_token_idx)
+                                       embedding_dim = self.e_char, padding_idx = pad_token_idx)
         # print(CNN.__dict__)
         # took sometime to find the __init instead of __init__ error ! (11/11/19)
-        self.cnn = CNN(e_char = e_char,f = embed_size,m_word = 21)
+        self.cnn = CNN(e_char = self.e_char,f = embed_size,m_word = 21)
         self.highway = Highway(e_word = embed_size)
-        self.dropout = nn.Dropout(drop_out)
+        self.dropout = nn.Dropout(self.drop_out)
         ### END YOUR CODE
 
     def forward(self, input):
@@ -61,12 +61,17 @@ class ModelEmbeddings(nn.Module):
         ### YOUR CODE HERE for part 1f
         x = self.embeddings(input)
         # print("x-1",x.shape) # [10, 5, 21, 50]
-        s_len, b_size,max_w_len,e_char = x.shape
-        x = x.reshape(-1,e_char,max_w_len)
+        s_len, b_size,max_w_len,e_char1 = x.shape
+        shape_v = (s_len * b_size, max_w_len, self.e_char)
+        # x = x.reshape(-1,self.e_char,max_w_len)
+        x = x.view(shape_v).transpose(1,2)
         x = self.cnn(x)
         x = x.reshape(s_len,b_size,-1)
         x = self.highway(x)
         x = self.dropout(x)
+        # print('x = ',x.shape)
+        # x = x.view(s_len,b_size,self.embed_size)
+        # print('x = ',x.shape)
         return x
         ### END YOUR CODE
 

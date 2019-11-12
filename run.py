@@ -339,18 +339,18 @@ def main():
 if __name__ == '__main__':
     main()
 '''
-Results local run 11/11/19
+Results local q2 run 11/11/19
 
-epoch 100, iter 500, cum. loss 2.10, cum. ppl 1.11 cum. examples 200
+epoch 200, iter 1000, cum. loss 0.18, cum. ppl 1.01 cum. examples 200
 begin validation ...
-validation: iter 500, dev. ppl 1.023381
+validation: iter 1000, dev. ppl 1.003354
 save currently the best model to [model.bin]
 save model parameters to [model.bin]
 reached maximum number of epochs!
-(base) USS-Defiant-2:XCS224N-A5-WIP ksankar$ sh run.sh test_local_q1
+(base) USS-Defiant-2:XCS224N-A5-WIP ksankar$ sh run.sh test_local_q2
 load test source sentences from [./en_es_data/test_tiny.es]
 load test target sentences from [./en_es_data/test_tiny.en]
 load model from model.bin
-Decoding: 100%|█| 4/4 [00:00<00:00, 21.91it/s]
+Decoding: 100%|█| 4/4 [00:00<00:00,  7.13it/s]
 Corpus BLEU: 99.29792465574434
 '''
