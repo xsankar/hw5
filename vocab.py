@@ -164,7 +164,8 @@ class VocabEntry(object):
         sents_var = torch.tensor(chr_indxs_p,dtype=torch.long,device=device)
         # print('sents_var-before',sents_var.shape)
         # sents_var = sents_var.permute(1,0,2).contiguous() # .transpose(sents_var,0,1)
-        sents_var = torch.transpose(sents_var,0,1)
+        # sents_var = torch.transpose(sents_var,0,1)
+        sents_var = torch.transpose(sents_var,0,1).contiguous()
         # print('sents_var-after',sents_var.shape)
         return sents_var
         ### END YOUR CODE
